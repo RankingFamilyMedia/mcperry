@@ -9,7 +9,7 @@ export default function SugarRankingPage() {
           Sugar Ranking Music
         </h1>
         <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
-          Welcome to the official home of McPerry as Sugar Ranking. Explore music, videos, and more.
+          Mcperry or Mcperry imagination is known in the music indstry as SUgar Ranking
         </p>
       </section>
       
