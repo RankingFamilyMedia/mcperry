@@ -11,6 +11,12 @@ const services = [
     link: '#',
   },
   {
+    icon: <Music className="w-8 h-8 text-primary" />,
+    title: 'Sugar Ranking Music',
+    description: 'mcperry as sugarranking.',
+    link: '#',
+  },
+  {
     icon: <Film className="w-8 h-8 text-primary" />,
     title: 'Music Videos & Films',
     description: 'Professional production of compelling music videos and short films to bring your artistic vision to life.',
