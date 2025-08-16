@@ -1,7 +1,7 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
-import { ArrowRight, Music, Code, Dumbbell, Wrench, Film, Users } from 'lucide-react';
+import { ArrowRight, Music, Code, Dumbbell, Wrench, Video, Users } from 'lucide-react';
 
 const services = [
   {
@@ -17,7 +17,7 @@ const services = [
     link: '/services/sugar-ranking',
   },
   {
-    icon: <Film className="w-8 h-8 text-primary" />,
+    icon: <Video className="w-8 h-8 text-primary" />,
     title: 'Music Videos & Films',
     description: 'Professional production of compelling music videos and short films to bring your artistic vision to life.',
     link: '#',
