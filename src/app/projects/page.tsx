@@ -8,7 +8,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { Search } from 'lucide-react';
+import { Search, ArrowLeft, ArrowRight } from 'lucide-react';
+import { Button } from '@/components/ui/button';
 
 export default function ProjectsPage() {
   return (
@@ -45,6 +46,17 @@ export default function ProjectsPage() {
         {placeholderProjects.map((project) => (
           <ProjectCard key={project.id} project={project} />
         ))}
+      </div>
+
+      <div className="mt-12 flex justify-center gap-4">
+        <Button variant="outline">
+          <ArrowLeft className="mr-2 h-4 w-4" />
+          Previous
+        </Button>
+        <Button variant="outline">
+          Next
+          <ArrowRight className="ml-2 h-4 w-4" />
+        </Button>
       </div>
     </div>
   );
