@@ -14,7 +14,7 @@ const services = [
     icon: <Music className="w-8 h-8 text-primary" />,
     title: 'Sugar Ranking Music',
     description: 'mcperry as sugarranking.',
-    link: '#',
+    link: '/services/sugar-ranking',
   },
   {
     icon: <Film className="w-8 h-8 text-primary" />,
