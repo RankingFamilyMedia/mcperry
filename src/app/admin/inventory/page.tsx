@@ -16,7 +16,7 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { MoreHorizontal, PlusCircle } from 'lucide-react';
+import { MoreHorizontal, PlusCircle, TrendingUp, Utensils, GlassWater, ShoppingCart, Droplets, Banknote } from 'lucide-react';
 import {
   DropdownMenu,
   DropdownMenuTrigger,
@@ -24,133 +24,209 @@ import {
   DropdownMenuItem,
   DropdownMenuLabel,
 } from '@/components/ui/dropdown-menu';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
-// Placeholder data for inventory items
-const inventoryItems = [
-  {
-    sku: 'UNO-R3-001',
-    name: 'Arduino Uno R3',
-    stock: 150,
-    price: 24.99,
-    status: 'In Stock',
-  },
-  {
-    sku: 'HAK-FX888D-01',
-    name: 'Hakko FX888D Soldering Station',
-    stock: 45,
-    price: 119.99,
-    status: 'In Stock',
-  },
-  {
-    sku: 'RES-KIT-300',
-    name: '300-piece Resistor Kit',
-    stock: 0,
-    price: 12.99,
-    status: 'Out of Stock',
-  },
-  {
-    sku: 'RPI-4B-4GB',
-    name: 'Raspberry Pi 4 Model B (4GB)',
-    stock: 5,
-    price: 55.0,
-    status: 'Low Stock',
-  },
+// Placeholder data
+const kitchenItems = [
+  { id: 1, name: 'Tomatoes', stock: 20, unit: 'kg' },
+  { id: 2, name: 'Rice', stock: 50, unit: 'kg' },
+  { id: 3, name: 'Chicken', stock: 15, unit: 'kg', status: 'Low Stock' },
 ];
 
-export default function InventoryPage() {
+const barItems = [
+    { id: 1, bar: 'Main Bar', name: 'Beer', stock: 100, unit: 'bottles' },
+    { id: 2, bar: 'Main Bar', name: 'Whiskey', stock: 20, unit: 'bottles' },
+    { id: 3, bar: 'Beach Bar', name: 'Cocktail Mix', stock: 15, unit: 'liters', status: 'Low Stock' },
+    { id: 4, bar: 'Beach Bar', name: 'Soda', stock: 150, unit: 'cans' },
+];
+
+const restroomItems = [
+    { id: 1, name: 'Toilet Paper', stock: 50, unit: 'rolls' },
+    { id: 2, name: 'Hand Soap', stock: 10, unit: 'liters' },
+    { id: 3, name: 'Paper Towels', stock: 5, unit: 'packs', status: 'Low Stock' },
+]
+
+const expenditures = [
+    { id: 1, item: 'Purchase of Vegetables', category: 'Kitchen', amount: 150.00, date: '2024-07-30' },
+    { id: 2, item: 'Restock of Sodas', category: 'Bar', amount: 250.50, date: '2024-07-29' },
+    { id: 3, item: 'Plumbing Repair', category: 'Maintenance', amount: 300.00, date: '2024-07-28' },
+];
+
+export default function ResortManagementPage() {
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="flex items-center justify-between mb-8">
         <div>
           <h1 className="text-3xl font-bold font-headline text-primary">
-            Inventory Management
+            TRB Beach Resort Management
           </h1>
           <p className="text-muted-foreground">
-            View and manage your product stock.
+            A comprehensive overview of your resort's operations.
           </p>
         </div>
-        <Button>
-          <PlusCircle className="mr-2" />
-          Add Product
-        </Button>
       </div>
 
-      <Card>
-        <CardHeader>
-          <CardTitle>Products</CardTitle>
-          <CardDescription>
-            A list of all products in your inventory.
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead className="hidden w-[100px] sm:table-cell">
-                  <span className="sr-only">Image</span>
-                </TableHead>
-                <TableHead>Name</TableHead>
-                <TableHead>Status</TableHead>
-                <TableHead className="hidden md:table-cell">Price</TableHead>
-                <TableHead className="hidden md:table-cell">
-                  Stock
-                </TableHead>
-                <TableHead>
-                  <span className="sr-only">Actions</span>
-                </TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {inventoryItems.map((item) => (
-                <TableRow key={item.sku}>
-                  <TableCell className="hidden sm:table-cell">
-                    {/* Placeholder for image */}
-                  </TableCell>
-                  <TableCell className="font-medium">{item.name}</TableCell>
-                  <TableCell>
-                    <Badge
-                      variant={
-                        item.status === 'In Stock'
-                          ? 'default'
-                          : item.status === 'Low Stock'
-                          ? 'secondary'
-                          : 'destructive'
-                      }
-                    >
-                      {item.status}
-                    </Badge>
-                  </TableCell>
-                  <TableCell className="hidden md:table-cell">
-                    ${item.price.toFixed(2)}
-                  </TableCell>
-                  <TableCell className="hidden md:table-cell">
-                    {item.stock}
-                  </TableCell>
-                  <TableCell>
-                    <DropdownMenu>
-                      <DropdownMenuTrigger asChild>
-                        <Button
-                          aria-haspopup="true"
-                          size="icon"
-                          variant="ghost"
-                        >
-                          <MoreHorizontal className="h-4 w-4" />
-                          <span className="sr-only">Toggle menu</span>
-                        </Button>
-                      </DropdownMenuTrigger>
-                      <DropdownMenuContent align="end">
-                        <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                        <DropdownMenuItem>Edit</DropdownMenuItem>
-                        <DropdownMenuItem>Delete</DropdownMenuItem>
-                      </DropdownMenuContent>
-                    </DropdownMenu>
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </CardContent>
-      </Card>
+      <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+         <Card className="lg:col-span-1">
+            <CardHeader>
+                <CardTitle className="flex items-center gap-2"><Banknote/> Transactions</CardTitle>
+                <CardDescription>Mobile Money & Utility Sales.</CardDescription>
+            </CardHeader>
+            <CardContent>
+                <div className="space-y-4">
+                    <div className="flex justify-between p-3 rounded-lg bg-secondary">
+                        <span className="font-medium">Today's Sales</span>
+                        <span className="text-green-500 font-bold">$1,250.00</span>
+                    </div>
+                     <div className="flex justify-between p-3 rounded-lg bg-secondary">
+                        <span className="font-medium">Mobile Money</span>
+                        <span className="font-bold">$800.00</span>
+                    </div>
+                     <div className="flex justify-between p-3 rounded-lg bg-secondary">
+                        <span className="font-medium">Utility Sales</span>
+                        <span className="font-bold">$450.00</span>
+                    </div>
+                    <Button className="w-full"><PlusCircle className="mr-2"/> Record Transaction</Button>
+                </div>
+            </CardContent>
+        </Card>
+
+        <Card className="lg:col-span-2">
+            <CardHeader>
+                <CardTitle className="flex items-center gap-2"><ShoppingCart/> Expenditures</CardTitle>
+                 <CardDescription>Expenses on items bought or used.</CardDescription>
+            </CardHeader>
+            <CardContent>
+                 <Table>
+                    <TableHeader>
+                        <TableRow>
+                            <TableHead>Item</TableHead>
+                            <TableHead>Category</TableHead>
+                            <TableHead className="text-right">Amount</TableHead>
+                        </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                        {expenditures.map(item => (
+                            <TableRow key={item.id}>
+                                <TableCell className="font-medium">{item.item}</TableCell>
+                                <TableCell>{item.category}</TableCell>
+                                <TableCell className="text-right">${item.amount.toFixed(2)}</TableCell>
+                            </TableRow>
+                        ))}
+                    </TableBody>
+                </Table>
+            </CardContent>
+        </Card>
+      </div>
+
+      <Tabs defaultValue="inventory" className="mt-8">
+        <TabsList className="grid w-full grid-cols-3">
+            <TabsTrigger value="inventory"><Utensils className="mr-2"/> Kitchen</TabsTrigger>
+            <TabsTrigger value="bars"><GlassWater className="mr-2"/> Bars</TabsTrigger>
+            <TabsTrigger value="restrooms"><Droplets className="mr-2"/> Restrooms</TabsTrigger>
+        </TabsList>
+        <TabsContent value="inventory">
+            <Card>
+                <CardHeader>
+                    <CardTitle>Kitchen Inventory</CardTitle>
+                </CardHeader>
+                <CardContent>
+                    <Table>
+                        <TableHeader>
+                            <TableRow>
+                                <TableHead>Item</TableHead>
+                                <TableHead>Stock</TableHead>
+                                <TableHead>Unit</TableHead>
+                                <TableHead>Status</TableHead>
+                            </TableRow>
+                        </TableHeader>
+                        <TableBody>
+                            {kitchenItems.map(item => (
+                                <TableRow key={item.id}>
+                                    <TableCell className="font-medium">{item.name}</TableCell>
+                                    <TableCell>{item.stock}</TableCell>
+                                    <TableCell>{item.unit}</TableCell>
+                                    <TableCell>
+                                         <Badge variant={item.status === 'Low Stock' ? 'destructive' : 'default'}>
+                                            {item.status ?? 'In Stock'}
+                                        </Badge>
+                                    </TableCell>
+                                </TableRow>
+                            ))}
+                        </TableBody>
+                    </Table>
+                </CardContent>
+            </Card>
+        </TabsContent>
+        <TabsContent value="bars">
+             <Card>
+                <CardHeader>
+                    <CardTitle>Bar Inventory</CardTitle>
+                </CardHeader>
+                <CardContent>
+                      <Table>
+                        <TableHeader>
+                            <TableRow>
+                                <TableHead>Bar</TableHead>
+                                <TableHead>Item</TableHead>
+                                <TableHead>Stock</TableHead>
+                                <TableHead>Unit</TableHead>
+                                 <TableHead>Status</TableHead>
+                            </TableRow>
+                        </TableHeader>
+                        <TableBody>
+                            {barItems.map(item => (
+                                <TableRow key={item.id}>
+                                    <TableCell className="font-medium">{item.bar}</TableCell>
+                                    <TableCell>{item.name}</TableCell>
+                                    <TableCell>{item.stock}</TableCell>
+                                    <TableCell>{item.unit}</TableCell>
+                                    <TableCell>
+                                        <Badge variant={item.status === 'Low Stock' ? 'destructive' : 'default'}>
+                                            {item.status ?? 'In Stock'}
+                                        </Badge>
+                                    </TableCell>
+                                </TableRow>
+                            ))}
+                        </TableBody>
+                    </Table>
+                </CardContent>
+            </Card>
+        </TabsContent>
+        <TabsContent value="restrooms">
+             <Card>
+                <CardHeader>
+                    <CardTitle>Restroom Supplies</CardTitle>
+                </CardHeader>
+                <CardContent>
+                      <Table>
+                        <TableHeader>
+                            <TableRow>
+                                <TableHead>Item</TableHead>
+                                <TableHead>Stock</TableHead>
+                                <TableHead>Unit</TableHead>
+                                <TableHead>Status</TableHead>
+                            </TableRow>
+                        </TableHeader>
+                        <TableBody>
+                            {restroomItems.map(item => (
+                                <TableRow key={item.id}>
+                                    <TableCell className="font-medium">{item.name}</TableCell>
+                                    <TableCell>{item.stock}</TableCell>
+                                    <TableCell>{item.unit}</TableCell>
+                                    <TableCell>
+                                        <Badge variant={item.status === 'Low Stock' ? 'destructive' : 'default'}>
+                                            {item.status ?? 'In Stock'}
+                                        </Badge>
+                                    </TableCell>
+                                </TableRow>
+                            ))}
+                        </TableBody>
+                    </Table>
+                </CardContent>
+            </Card>
+        </TabsContent>
+      </Tabs>
     </div>
   );
 }
