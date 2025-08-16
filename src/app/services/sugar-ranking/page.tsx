@@ -36,7 +36,7 @@ export default function SugarRankingPage() {
       <section>
         <h2 className="text-3xl font-bold text-center font-headline mb-8">About Sugar Ranking</h2>
         <p className="text-muted-foreground max-w-3xl mx-auto text-center">
-            This is where you can add more information about Sugar Ranking, including a biography, discography, tour dates, and more. You have a whole page to be creative with!
+            Information about Sugar Ranking, including biography, discography, and tour dates, will be loaded here from an API.
         </p>
       </section>
     </div>
