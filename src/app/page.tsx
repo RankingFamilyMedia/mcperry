@@ -15,6 +15,7 @@ import {
   Music,
   Sparkles,
   Briefcase,
+  BookOpen,
 } from 'lucide-react';
 import {
   Carousel,
@@ -32,6 +33,13 @@ const featureCards = [
       'Explore detailed electronics projects with tutorials and schematics.',
     link: '/projects',
     icon: <CircuitBoard className="h-10 w-10 text-primary" />,
+  },
+  {
+    title: 'Tutorials',
+    description:
+      'Learn new skills with our structured books and collections.',
+    link: '/tutorials',
+    icon: <BookOpen className="h-10 w-10 text-primary" />,
   },
   {
     title: 'AI Idea Generator',
@@ -159,7 +167,7 @@ export default function Home() {
               Explore our services and projects.
             </p>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {featureCards.map((card, index) => (
               <Card
                 key={card.title}

@@ -39,3 +39,29 @@ export type Job = {
   description: string;
   applyUrl: string;
 };
+
+export type Tutorial = {
+  id: string;
+  title: string;
+  description: string;
+  duration: string;
+  category: 'Beginner' | 'Intermediate' | 'Advanced';
+  prerequisites: string[];
+  project: string; // Project ID
+};
+
+export type Book = {
+  id: string;
+  title: string;
+  description: string;
+  author: string;
+  category: string;
+  tutorials: Tutorial[];
+};
+
+export type Collection = {
+    id: string;
+    title: string;
+    description: string;
+    books: Book[];
+};

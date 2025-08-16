@@ -10,6 +10,7 @@ import { cn } from '@/lib/utils';
 
 const navLinks = [
   { href: '/projects', label: 'Projects' },
+  { href: '/tutorials', label: 'Tutorials' },
   { href: '/idea-generator', label: 'AI Ideas' },
   { href: '/shop', label: 'Shop' },
   { href: '/jobs', label: 'Jobs' },
@@ -37,7 +38,7 @@ export function Header() {
                 href={link.href}
                 className={cn(
                   'transition-colors hover:text-primary',
-                  pathname === link.href ? 'text-primary' : 'text-muted-foreground'
+                  pathname.startsWith(link.href) ? 'text-primary' : 'text-muted-foreground'
                 )}
               >
                 {link.label}
@@ -88,7 +89,7 @@ export function Header() {
                     onClick={() => setIsOpen(false)}
                     className={cn(
                       'text-lg font-medium transition-colors hover:text-primary',
-                      pathname === link.href ? 'text-primary' : 'text-muted-foreground'
+                      pathname.startsWith(link.href) ? 'text-primary' : 'text-muted-foreground'
                     )}
                   >
                     {link.label}

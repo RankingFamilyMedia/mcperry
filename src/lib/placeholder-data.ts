@@ -1,4 +1,55 @@
-import type { Project, Product, Job } from './types';
+import type { Project, Product, Job, Tutorial, Book, Collection } from './types';
+
+export const placeholderTutorials: Tutorial[] = [
+  {
+    id: 't1',
+    title: 'Arduino Fundamentals: Getting Started',
+    description: 'Learn the absolute basics of Arduino, from setting up your board to uploading your first sketch.',
+    duration: '45 mins',
+    category: 'Beginner',
+    prerequisites: ['None'],
+    project: '1',
+  },
+  {
+    id: 't2',
+    title: 'Reading Sensors with Arduino',
+    description: 'Explore how to read data from common sensors like temperature and humidity sensors.',
+    duration: '1 hour',
+    category: 'Beginner',
+    prerequisites: ['Arduino Fundamentals'],
+    project: '1',
+  },
+  {
+    id: 't3',
+    title: 'Displaying Data on an OLED',
+    description: 'Learn to connect and program an OLED screen to display text and graphics from your Arduino.',
+    duration: '1.5 hours',
+    category: 'Intermediate',
+    prerequisites: ['Arduino Fundamentals', 'Reading Sensors with Arduino'],
+    project: '1',
+  },
+  {
+    id: 't4',
+    title: 'Building the Weather Station',
+    description: 'Assemble all the components and write the final code for your DIY Weather Station.',
+    duration: '2 hours',
+    category: 'Intermediate',
+    prerequisites: ['All previous tutorials in this book'],
+    project: '1',
+  },
+];
+
+
+export const placeholderBooks: Book[] = [
+  {
+    id: 'b1',
+    title: 'The Ultimate Arduino Weather Station Guide',
+    description: 'A complete book to guide you from a beginner to building a fully functional Arduino Weather Station.',
+    author: 'Alex Doe',
+    category: 'Electronics',
+    tutorials: placeholderTutorials,
+  }
+]
 
 export const placeholderProjects: Project[] = [
   {
