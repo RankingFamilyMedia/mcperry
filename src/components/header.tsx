@@ -7,7 +7,6 @@ import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { Menu, CircuitBoard, X, Shield } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import { ThemeToggle } from './theme-toggle';
 
 const navLinks = [
   { href: '/projects', label: 'Projects' },
@@ -122,7 +121,6 @@ export function Header() {
           </SheetContent>
         </Sheet>
         <div className="flex flex-1 items-center justify-end space-x-4">
-          <ThemeToggle />
           <Button asChild>
             <Link href="/projects/create">Create Project</Link>
           </Button>

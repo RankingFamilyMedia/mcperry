@@ -3,7 +3,6 @@ import './globals.css';
 import { Toaster } from '@/components/ui/toaster';
 import { Header } from '@/components/header';
 import { Footer } from '@/components/footer';
-import { ThemeProvider } from '@/components/theme-provider';
 
 export const metadata: Metadata = {
   title: 'McPerry Imaginations',
@@ -26,19 +25,12 @@ export default function RootLayout({
         />
       </head>
       <body className="font-body antialiased">
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="dark"
-          enableSystem
-          disableTransitionOnChange
-        >
           <div className="relative flex min-h-screen flex-col bg-background">
             <Header />
             <main className="flex-1">{children}</main>
             <Footer />
           </div>
           <Toaster />
-        </ThemeProvider>
       </body>
     </html>
   );
