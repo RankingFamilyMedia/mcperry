@@ -5,14 +5,13 @@ import { usePathname } from 'next/navigation';
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
-import { Menu, CircuitBoard, X, Shield } from 'lucide-react';
+import { Menu, CircuitBoard, X, Shield, Wrench } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 const navLinks = [
   { href: '/projects', label: 'Projects' },
   { href: '/tutorials', label: 'Tutorials' },
-  { href: '/idea-generator', label: 'AI Ideas' },
-  { href: '/brand-advisor', label: 'Brand Advisor' },
+  { href: '/tools', label: 'Tools' },
   { href: '/shop', label: 'Shop' },
   { href: '/jobs', label: 'Jobs' },
   { href: '/services', label: 'Services' },

@@ -65,3 +65,15 @@ export type Collection = {
     description: string;
     books: Book[];
 };
+
+export type BlogPost = {
+  id: string;
+  title: string;
+  excerpt: string;
+  imageUrl: string;
+  author: string;
+  date: string;
+  slug: string;
+  category: string;
+  aiHint: string;
+};

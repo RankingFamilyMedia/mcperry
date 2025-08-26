@@ -10,6 +10,7 @@ export function Footer() {
         <div className="flex items-center gap-4">
           <Link href="/services" className="text-sm text-muted-foreground hover:text-primary transition-colors">Services</Link>
           <Link href="/projects" className="text-sm text-muted-foreground hover:text-primary transition-colors">Projects</Link>
+          <Link href="/tools" className="text-sm text-muted-foreground hover:text-primary transition-colors">Tools</Link>
           <Link href="/shop" className="text-sm text-muted-foreground hover:text-primary transition-colors">Shop</Link>
         </div>
       </div>

@@ -1,4 +1,4 @@
-import type { Project, Product, Job, Tutorial, Book, Collection } from './types';
+import type { Project, Product, Job, Tutorial, Book, Collection, BlogPost } from './types';
 
 export const placeholderTutorials: Tutorial[] = [
   {
@@ -177,4 +177,40 @@ export const placeholderJobs: Job[] = [
         description: 'Assist our lead producers in recording sessions, mixing, and mastering tracks. Passion for music is a must.',
         applyUrl: '#'
     }
+];
+
+export const placeholderBlogPosts: BlogPost[] = [
+  {
+    id: 'bp1',
+    title: 'The Art of PCB Design: A Beginner\'s Guide',
+    excerpt: 'Dive into the world of printed circuit board design. This guide covers the basics from schematic capture to layout and routing.',
+    imageUrl: 'https://placehold.co/600x400.png',
+    author: 'McPerry',
+    date: 'July 28, 2024',
+    slug: 'pcb-design-beginners-guide',
+    category: 'Electronics',
+    aiHint: 'circuit board design',
+  },
+  {
+    id: 'bp2',
+    title: 'Finding Your Unique Sound as a Music Producer',
+    excerpt: 'Struggling to stand out? Explore techniques for developing a signature sound that sets you apart in the music industry.',
+    imageUrl: 'https://placehold.co/600x400.png',
+    author: 'Sugar Ranking',
+    date: 'July 25, 2024',
+    slug: 'finding-your-unique-sound',
+    category: 'Music',
+    aiHint: 'music production studio',
+  },
+  {
+    id: 'bp3',
+    title: 'Why Next.js is a Game-Changer for Web Development',
+    excerpt: 'An in-depth look at the features that make Next.js a powerful framework for building modern, performant web applications.',
+    imageUrl: 'https://placehold.co/600x400.png',
+    author: 'Alex Doe',
+    date: 'July 22, 2024',
+    slug: 'why-nextjs-is-a-game-changer',
+    category: 'Web Development',
+    aiHint: 'code on screen',
+  },
 ];

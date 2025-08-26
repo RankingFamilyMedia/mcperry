@@ -2,6 +2,7 @@ import {
   Card,
   CardContent,
   CardDescription,
+  CardFooter,
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
@@ -9,13 +10,13 @@ import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import {
   ArrowRight,
-  CircuitBoard,
+  Music,
   Code,
   Dumbbell,
-  Music,
-  Sparkles,
-  Briefcase,
-  BookOpen,
+  Wrench,
+  Video,
+  Users,
+  Feather,
 } from 'lucide-react';
 import {
   Carousel,
@@ -25,62 +26,8 @@ import {
   CarouselPrevious,
 } from '@/components/ui/carousel';
 import Image from 'next/image';
-
-const featureCards = [
-  {
-    title: 'DIY Projects',
-    description:
-      'Explore detailed electronics projects with tutorials and schematics.',
-    link: '/projects',
-    icon: <CircuitBoard className="h-10 w-10 text-primary" />,
-  },
-  {
-    title: 'Tutorials',
-    description:
-      'Learn new skills with our structured books and collections.',
-    link: '/tutorials',
-    icon: <BookOpen className="h-10 w-10 text-primary" />,
-  },
-  {
-    title: 'AI Idea Generator',
-    description:
-      'Get inspired with AI-powered project ideas based on your skills.',
-    link: '/idea-generator',
-    icon: <Sparkles className="h-10 w-10 text-primary" />,
-  },
-  {
-    title: 'Music & Film',
-    description:
-      'Discover music production, artist services, and video creation.',
-    link: '/services',
-    icon: <Music className="h-10 w-10 text-primary" />,
-  },
-  {
-    title: 'Web & Apps',
-    description: 'Boost your business with custom websites and applications.',
-    link: '/services',
-    icon: <Code className="h-10 w-10 text-primary" />,
-  },
-  {
-    title: 'Sports Promotion',
-    description: 'Training and promotion for aspiring world champion athletes.',
-    link: '/services',
-    icon: <Dumbbell className="h-10 w-10 text-primary" />,
-  },
-  {
-    title: 'Affiliate Shop',
-    description:
-      'Browse our curated list of products and tools for your projects.',
-    link: '/shop',
-    icon: <CircuitBoard className="h-10 w-10 text-primary" />,
-  },
-  {
-    title: 'Job Board',
-    description: 'Find your next career opportunity in tech, music, and more.',
-    link: '/jobs',
-    icon: <Briefcase className="h-10 w-10 text-primary" />,
-  },
-];
+import { placeholderBlogPosts } from '@/lib/placeholder-data';
+import { Badge } from '@/components/ui/badge';
 
 const heroSlides = [
   {
@@ -112,9 +59,43 @@ const heroSlides = [
   },
 ];
 
+const services = [
+  {
+    icon: <Music className="w-8 h-8 text-primary" />,
+    title: 'Music Production & Distribution',
+    description: 'Studio recording, mixing, mastering, beat production, and global music distribution.',
+  },
+  {
+    icon: <Video className="w-8 h-8 text-primary" />,
+    title: 'Music Videos & Films',
+    description: 'Professional production of compelling music videos and short films to bring your artistic vision to life.',
+  },
+  {
+    icon: <Code className="w-8 h-8 text-primary" />,
+    title: 'Websites & Apps',
+    description: 'Custom websites and applications designed to boost your business, complete with rich SEO profiling.',
+  },
+  {
+    icon: <Wrench className="w-8 h-8 text-primary" />,
+    title: 'Electronic Repair Services',
+    description: 'Expert repair services for a wide range of electronic devices. Get a quote today.',
+  },
+  {
+    icon: <Dumbbell className="w-8 h-8 text-primary" />,
+    title: 'Sports Promotion',
+    description: 'Comprehensive training, motivation, and psychological conditioning to forge world champion athletes.',
+  },
+  {
+    icon: <Users className="w-8 h-8 text-primary" />,
+    title: 'Artist & Influencer Management',
+    description: 'Full-service management for artists and influencers, including deals and social media strategy.',
+  },
+];
+
 export default function Home() {
   return (
     <div className="flex flex-col">
+      {/* Hero Section */}
       <section className="w-full">
         <Carousel
           className="w-full"
@@ -129,7 +110,7 @@ export default function Home() {
                   <Image
                     src={slide.imageUrl}
                     alt={slide.title}
-                    layout="fill"
+                    fill
                     objectFit="cover"
                     className="brightness-50"
                     data-ai-hint={slide.aiHint}
@@ -157,46 +138,127 @@ export default function Home() {
         </Carousel>
       </section>
 
-      <div className="container mx-auto px-4 py-16 md:py-24">
-        <section>
+      {/* About Summary Section */}
+      <section className="bg-background py-16 md:py-24">
+        <div className="container mx-auto px-4">
+          <div className="grid md:grid-cols-2 gap-12 items-center">
+            <div>
+               <h2 className="text-3xl md:text-4xl font-bold font-headline text-primary mb-4">
+                Welcome to McPerry Imaginations
+              </h2>
+              <p className="text-muted-foreground mb-4">
+                McPerry Imaginations is a multifaceted creative hub where innovation knows no bounds. We are a collective of creators, thinkers, and makers dedicated to pushing the boundaries of technology, art, and music.
+              </p>
+              <p className="text-muted-foreground mb-6">
+                From composing chart-topping hits as Sugar Ranking to engineering complex electronics and developing cutting-edge web applications, our passion lies in bringing ambitious ideas to life. We also dedicate ourselves to nurturing talent, whether it's promoting the next world champion athlete or managing the careers of rising artists.
+              </p>
+               <Button asChild>
+                <Link href="/about">
+                  Learn More About Us <ArrowRight className="ml-2 h-4 w-4" />
+                </Link>
+              </Button>
+            </div>
+            <div>
+              <Image
+                src="https://placehold.co/600x400.png"
+                alt="About McPerry Imaginations"
+                width={600}
+                height={400}
+                className="rounded-lg shadow-lg"
+                data-ai-hint="creative workspace"
+              />
+            </div>
+          </div>
+        </div>
+      </section>
+      
+      {/* Services Section */}
+      <section className="bg-secondary py-16 md:py-24">
+        <div className="container mx-auto px-4">
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-bold font-headline text-primary">
-              Our Universe of Creativity
+              Our Services
             </h2>
-            <p className="text-lg text-muted-foreground mt-2">
-              Explore our services and projects.
+            <p className="text-lg text-muted-foreground mt-2 max-w-2xl mx-auto">
+              A diverse range of services to empower your creative and business goals.
             </p>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {featureCards.map((card, index) => (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {services.map((service, index) => (
               <Card
-                key={card.title}
+                key={service.title}
                 className="bg-card hover:border-primary transition-all duration-300 transform hover:-translate-y-1 shadow-lg hover:shadow-primary/20"
-                style={{ animationDelay: `${index * 150}ms` }}
               >
                 <CardHeader className="flex flex-row items-center gap-4">
-                  {card.icon}
+                  {service.icon}
                   <div className="flex-1">
-                    <CardTitle className="font-headline">{card.title}</CardTitle>
+                    <CardTitle className="font-headline">{service.title}</CardTitle>
                   </div>
                 </CardHeader>
                 <CardContent className="pt-0">
-                  <CardDescription>{card.description}</CardDescription>
-                  <Button
-                    asChild
-                    variant="link"
-                    className="p-0 text-accent mt-4"
-                  >
-                    <Link href={card.link}>
-                      Learn More <ArrowRight className="ml-2 h-4 w-4" />
-                    </Link>
-                  </Button>
+                  <p className="text-muted-foreground">{service.description}</p>
                 </CardContent>
               </Card>
             ))}
           </div>
-        </section>
-      </div>
+           <div className="text-center mt-12">
+              <Button asChild size="lg" variant="outline">
+                <Link href="/services">
+                  Explore All Services <ArrowRight className="ml-2 h-4 w-4" />
+                </Link>
+              </Button>
+            </div>
+        </div>
+      </section>
+
+      {/* Blog Posts Section */}
+      <section className="py-16 md:py-24">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-bold font-headline text-primary">
+              From the Blog
+            </h2>
+            <p className="text-lg text-muted-foreground mt-2 max-w-2xl mx-auto">
+              Latest news, tutorials, and insights from our team.
+            </p>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {placeholderBlogPosts.slice(0,3).map(post => (
+              <Link href={`/blog/${post.slug}`} key={post.id} className="group">
+                <Card className="h-full flex flex-col overflow-hidden hover:border-primary transition-all duration-300 transform hover:-translate-y-1 shadow-lg hover:shadow-primary/20">
+                  <div className="aspect-video relative">
+                    <Image
+                      src={post.imageUrl}
+                      alt={post.title}
+                      fill
+                      objectFit="cover"
+                      className="transition-transform duration-300 group-hover:scale-105"
+                      data-ai-hint={post.aiHint}
+                    />
+                  </div>
+                  <CardHeader>
+                    <Badge variant="secondary" className="w-fit mb-2">{post.category}</Badge>
+                    <CardTitle className="font-headline text-xl group-hover:text-accent">{post.title}</CardTitle>
+                  </CardHeader>
+                  <CardContent className="flex-grow">
+                    <p className="text-muted-foreground text-sm line-clamp-3">{post.excerpt}</p>
+                  </CardContent>
+                   <CardFooter>
+                     <p className="text-sm text-muted-foreground">{post.date} &middot; by {post.author}</p>
+                  </CardFooter>
+                </Card>
+              </Link>
+            ))}
+          </div>
+          <div className="text-center mt-12">
+            <Button asChild size="lg">
+              <Link href="/blog">
+                Read More Posts <Feather className="ml-2 h-4 w-4" />
+              </Link>
+            </Button>
+          </div>
+        </div>
+      </section>
     </div>
   );
 }
