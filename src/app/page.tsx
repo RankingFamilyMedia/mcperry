@@ -14,9 +14,12 @@ import {
   Code,
   Dumbbell,
   Wrench,
-  Video,
   Users,
-  Feather,
+  CircuitBoard,
+  Database,
+  ShoppingCart,
+  Calendar,
+  Mic,
 } from 'lucide-react';
 import {
   Carousel,
@@ -61,34 +64,52 @@ const heroSlides = [
 
 const services = [
   {
-    icon: <Music className="w-8 h-8 text-primary" />,
-    title: 'Music Production & Distribution',
-    description: 'Studio recording, mixing, mastering, beat production, and global music distribution.',
-  },
-  {
-    icon: <Video className="w-8 h-8 text-primary" />,
-    title: 'Music Videos & Films',
-    description: 'Professional production of compelling music videos and short films to bring your artistic vision to life.',
-  },
-  {
-    icon: <Code className="w-8 h-8 text-primary" />,
-    title: 'Websites & Apps',
-    description: 'Custom websites and applications designed to boost your business, complete with rich SEO profiling.',
+    icon: <CircuitBoard className="w-8 h-8 text-primary" />,
+    title: 'PCB Design & Sales',
+    description:
+      'Custom PCB design for all modules and sale of pre-made boards.',
   },
   {
     icon: <Wrench className="w-8 h-8 text-primary" />,
-    title: 'Electronic Repair Services',
-    description: 'Expert repair services for a wide range of electronic devices. Get a quote today.',
+    title: 'DIY Amplifiers & Repairs',
+    description:
+      'Build your own custom-wattage home audio amplifiers and expert electronic repair services.',
   },
   {
-    icon: <Dumbbell className="w-8 h-8 text-primary" />,
-    title: 'Sports Promotion',
-    description: 'Comprehensive training, motivation, and psychological conditioning to forge world champion athletes.',
+    icon: <Code className="w-8 h-8 text-primary" />,
+    title: 'Web & App Development',
+    description:
+      'Full-stack web design and application development to bring your digital ideas to life.',
+  },
+  {
+    icon: <Database className="w-8 h-8 text-primary" />,
+    title: 'Data Management',
+    description:
+      'Robust data management solutions to keep your information organized and secure.',
+  },
+  {
+    icon: <Music className="w-8 h-8 text-primary" />,
+    title: 'Music Production & Distribution',
+    description:
+      'Full-service music production and global distribution to get your tracks heard.',
   },
   {
     icon: <Users className="w-8 h-8 text-primary" />,
-    title: 'Artist & Influencer Management',
-    description: 'Full-service management for artists and influencers, including deals and social media strategy.',
+    title: 'Music & Sports Promotions',
+    description:
+      'Artist promotions and comprehensive support for athletes and sports events.',
+  },
+  {
+    icon: <Mic className="w-8 h-8 text-primary" />,
+    title: 'Musician for Booking',
+    description:
+      'Hire a professional musician for your events, studio sessions, and collaborations.',
+  },
+  {
+    icon: <Calendar className="w-8 h-8 text-primary" />,
+    title: 'Event Organization',
+    description:
+      'Professional event organization services for sports and music events.',
   },
 ];
 
@@ -183,7 +204,7 @@ export default function Home() {
               A diverse range of services to empower your creative and business goals.
             </p>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {services.map((service, index) => (
               <Card
                 key={service.title}
@@ -253,7 +274,7 @@ export default function Home() {
           <div className="text-center mt-12">
             <Button asChild size="lg">
               <Link href="/blog">
-                Read More Posts <Feather className="ml-2 h-4 w-4" />
+                Read More Posts <ArrowRight className="ml-2 h-4 w-4" />
               </Link>
             </Button>
           </div>
