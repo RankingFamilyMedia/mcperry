@@ -23,6 +23,8 @@ export default function RootLayout({
           href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap"
           rel="stylesheet"
         />
+        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6208745110537063"
+     crossOrigin="anonymous"></script>
       </head>
       <body className="font-body antialiased">
           <div className="relative flex min-h-screen flex-col bg-background">
