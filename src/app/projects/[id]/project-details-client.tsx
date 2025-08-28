@@ -25,6 +25,7 @@ import { useToast } from '@/hooks/use-toast';
 import { Bot, CircuitBoard, List, MessageSquare, Sparkles } from 'lucide-react';
 import { Separator } from '@/components/ui/separator';
 import { Skeleton } from '@/components/ui/skeleton';
+import { AdWidget } from '@/components/ad-widget';
 
 export default function ProjectDetailsClient({ project }: { project: Project }) {
   const [comments, setComments] = useState(
@@ -166,6 +167,8 @@ export default function ProjectDetailsClient({ project }: { project: Project }) 
               </div>
             </CardContent>
           </Card>
+
+           <AdWidget />
 
           {(isLoading || analysisResult) && (
             <Card className="bg-secondary">
