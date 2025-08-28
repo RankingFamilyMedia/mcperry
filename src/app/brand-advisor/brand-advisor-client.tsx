@@ -43,7 +43,7 @@ export default function BrandAdvisorClient() {
     try {
       const result = await brandAdvisor(values);
       setSuggestion(result);
-    } catch (error)
+    } catch (error) {
       console.error('Error getting brand advice:', error);
       toast({
         title: 'An Error Occurred',
