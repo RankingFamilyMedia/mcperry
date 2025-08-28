@@ -1,9 +1,12 @@
+
 import { placeholderBlogPosts } from '@/lib/placeholder-data';
 import { BlogPost } from '@/lib/types';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import Image from 'next/image';
 import Link from 'next/link';
+import { Button } from '@/components/ui/button';
+import { PlusCircle } from 'lucide-react';
 
 async function getBlogPosts(): Promise<BlogPost[]> {
     // In a real application, you would fetch this from your CMS
@@ -36,6 +39,15 @@ export default async function BlogPage() {
                     News, tutorials, and insights from our team.
                 </p>
             </section>
+
+            <div className="text-center mb-8">
+                <Button asChild>
+                    <Link href="/admin/blog/create">
+                        <PlusCircle className="mr-2 h-4 w-4" />
+                        Write a New Post
+                    </Link>
+                </Button>
+            </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 {posts.map(post => (
