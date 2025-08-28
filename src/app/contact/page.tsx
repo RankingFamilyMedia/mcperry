@@ -44,14 +44,14 @@ export default function ContactPage() {
                         <Phone className="w-6 h-6 text-primary" />
                         <div>
                             <h3 className="font-semibold">Phone</h3>
-                            <p className="text-muted-foreground">(123) 456-7890</p>
+                            <p className="text-muted-foreground">+233277632966</p>
                         </div>
                     </div>
                      <div className="flex items-center gap-4">
                         <MapPin className="w-6 h-6 text-primary" />
                         <div>
                             <h3 className="font-semibold">Address</h3>
-                            <p className="text-muted-foreground">123 Creative Lane, Innovation City, 12345</p>
+                            <p className="text-muted-foreground">2nd ponpon streets, dansoman accra</p>
                         </div>
                     </div>
                 </CardContent>
