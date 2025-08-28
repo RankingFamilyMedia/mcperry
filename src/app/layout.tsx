@@ -5,8 +5,8 @@ import { Header } from '@/components/header';
 import { Footer } from '@/components/footer';
 
 export const metadata: Metadata = {
-  title: 'McPerry Imaginations',
-  description: 'Imagine. Create. Inspire.',
+  title: 'McPerry Marketplace',
+  description: 'Online Shopping Hub',
 };
 
 export default function RootLayout({

@@ -5,8 +5,9 @@ import { usePathname } from 'next/navigation';
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
-import { Menu, CircuitBoard, X } from 'lucide-react';
+import { Menu, X } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import Image from 'next/image';
 
 const navLinks = [
   { href: '/projects', label: 'Projects' },
@@ -27,9 +28,9 @@ export function Header() {
       <div className="container flex h-16 items-center">
         <div className="mr-4 hidden md:flex">
           <Link href="/" className="mr-6 flex items-center space-x-2">
-            <CircuitBoard className="h-6 w-6 text-primary" />
+            <Image src="https://storage.googleapis.com/stately-studio-public/mcperry-logo-1722449013580.png" alt="McPerry Marketplace Logo" width={40} height={40} />
             <span className="hidden font-bold sm:inline-block font-headline">
-              McPerry Imaginations
+              McPerry Marketplace
             </span>
           </Link>
           <nav className="flex items-center space-x-6 text-sm font-medium">
@@ -59,9 +60,9 @@ export function Header() {
           </SheetTrigger>
           <div className="flex-1 md:hidden">
             <Link href="/" className="flex items-center space-x-2">
-              <CircuitBoard className="h-6 w-6 text-primary" />
+               <Image src="https://storage.googleapis.com/stately-studio-public/mcperry-logo-1722449013580.png" alt="McPerry Marketplace Logo" width={40} height={40} />
               <span className="font-bold font-headline">
-                McPerry Imaginations
+                McPerry Marketplace
               </span>
             </Link>
           </div>
@@ -69,9 +70,9 @@ export function Header() {
             <div className="flex h-full flex-col">
               <div className="flex items-center justify-between border-b pb-6">
                 <Link href="/" className="flex items-center space-x-2" onClick={() => setIsOpen(false)}>
-                  <CircuitBoard className="h-6 w-6 text-primary" />
+                  <Image src="https://storage.googleapis.com/stately-studio-public/mcperry-logo-1722449013580.png" alt="McPerry Marketplace Logo" width={40} height={40} />
                   <span className="font-bold font-headline">
-                    McPerry Imaginations
+                    McPerry Marketplace
                   </span>
                 </Link>
                 <SheetTrigger asChild>
