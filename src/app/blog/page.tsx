@@ -40,15 +40,6 @@ export default async function BlogPage() {
                 </p>
             </section>
 
-            <div className="text-center mb-8">
-                <Button asChild>
-                    <Link href="/admin/blog/create">
-                        <PlusCircle className="mr-2 h-4 w-4" />
-                        Write a New Post
-                    </Link>
-                </Button>
-            </div>
-
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 {posts.map(post => (
                     <Link href={`/blog/${post.slug}`} key={post.id} className="group">

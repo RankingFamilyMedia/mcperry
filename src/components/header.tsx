@@ -103,9 +103,7 @@ export function Header() {
           </SheetContent>
         </Sheet>
         <div className="flex flex-1 items-center justify-end space-x-4">
-          <Button asChild>
-            <Link href="/admin/create">Create Project</Link>
-          </Button>
+          
         </div>
       </div>
     </header>
