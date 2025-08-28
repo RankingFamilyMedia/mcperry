@@ -1,3 +1,4 @@
+
 'use client';
 
 import Link from 'next/link';
@@ -103,7 +104,7 @@ export function Header() {
         </Sheet>
         <div className="flex flex-1 items-center justify-end space-x-4">
           <Button asChild>
-            <Link href="/projects/create">Create Project</Link>
+            <Link href="/admin/create">Create Project</Link>
           </Button>
         </div>
       </div>

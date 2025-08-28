@@ -1,3 +1,4 @@
+
 import {
   Card,
   CardContent,
@@ -71,7 +72,7 @@ const toolCards = [
    {
     title: 'Create a Project',
     description: 'Share your own DIY projects with the community.',
-    link: '/projects/create',
+    link: '/admin/create',
     icon: <Code className="h-10 w-10 text-primary" />,
   },
 ];
