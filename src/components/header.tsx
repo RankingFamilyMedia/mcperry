@@ -5,7 +5,7 @@ import { usePathname } from 'next/navigation';
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
-import { Menu, CircuitBoard, X, Shield, Wrench } from 'lucide-react';
+import { Menu, CircuitBoard, X } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 const navLinks = [
@@ -45,16 +45,6 @@ export function Header() {
                 {link.label}
               </Link>
             ))}
-             <Link
-                href="/admin/inventory"
-                className={cn(
-                  'transition-colors hover:text-primary flex items-center gap-1',
-                  pathname.startsWith('/admin') ? 'text-primary' : 'text-muted-foreground'
-                )}
-              >
-                <Shield className="h-4 w-4" />
-                Admin
-              </Link>
           </nav>
         </div>
         <Sheet open={isOpen} onOpenChange={setIsOpen}>
@@ -106,16 +96,6 @@ export function Header() {
                     {link.label}
                   </Link>
                 ))}
-                 <Link
-                    href="/admin/inventory"
-                    onClick={() => setIsOpen(false)}
-                    className={cn(
-                      'text-lg font-medium transition-colors hover:text-primary flex items-center gap-2',
-                      pathname.startsWith('/admin') ? 'text-primary' : 'text-muted-foreground'
-                    )}
-                  >
-                   <Shield className="h-5 w-5" /> Admin
-                  </Link>
               </div>
             </div>
           </SheetContent>
