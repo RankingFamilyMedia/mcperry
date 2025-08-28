@@ -37,7 +37,7 @@ export default function ContactPage() {
                         <Mail className="w-6 h-6 text-primary" />
                         <div>
                             <h3 className="font-semibold">Email</h3>
-                            <a href="mailto:info@mcperryimaginations.com" className="text-muted-foreground hover:text-primary">info@mcperryimaginations.com</a>
+                            <a href="mailto:info@mcperryimaginations.online" className="text-muted-foreground hover:text-primary">info@mcperryimaginations.online</a>
                         </div>
                     </div>
                      <div className="flex items-center gap-4">
