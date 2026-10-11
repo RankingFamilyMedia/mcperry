@@ -99,6 +99,14 @@ class LearningTests(unittest.TestCase):
         lesson=next(p for p in self.call('/api/catalog',token=self.student)['posts'] if p['id']==post['id'])
         self.assertEqual(lesson['pdf'],uploaded['url'])
         self.assertEqual(lesson['author_name'],'teacher')
+
+    def test_wallet_is_owner_recorded_and_teacher_scoped(self):
+        entry=self.call('/api/wallet-entry',{'teacher_id':2,'period':'2026-10','amount_minor':1250,'currency':'GHS','eligible_views':500,'participation_units':3,'share_percent':25,'source':'YouTube Studio October statement','description':'Linear equations lesson allocation'})
+        wallet=self.call('/api/wallet',token=self.teacher)
+        self.assertEqual(wallet['entries'][0]['id'],entry['id'])
+        self.assertEqual(wallet['entries'][0]['amount_minor'],1250)
+        self.denied('/api/wallet',None,self.student)
+        self.denied('/api/wallet-entry',{'teacher_id':2,'period':'2026-10','amount_minor':1,'source':'x','description':'x'},self.teacher)
     def test_logout(self):
         self.call('/api/logout',{},self.student);self.denied('/api/catalog',None,self.student,401)
     def test_login_limit_survives_failure(self):
