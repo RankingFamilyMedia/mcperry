@@ -1,8 +1,8 @@
 plugins { id 'com.android.application' }
 android {
     namespace 'com.mcperry.learn'
-    compileSdk 35
-    defaultConfig { applicationId 'com.mcperry.learn'; minSdk 26; targetSdk 35; versionCode 2; versionName '0.2.0' }
+    compileSdk 36
+    defaultConfig { applicationId 'com.mcperry.learn'; minSdk 26; targetSdk 36; versionCode 3; versionName '0.2.1' }
     def storeFilePath = findProperty('MCPERRY_STORE_FILE') ?: System.getenv('MCPERRY_STORE_FILE')
     def storePasswordValue = findProperty('MCPERRY_STORE_PASSWORD') ?: System.getenv('MCPERRY_STORE_PASSWORD')
     def keyAliasValue = findProperty('MCPERRY_KEY_ALIAS') ?: System.getenv('MCPERRY_KEY_ALIAS')
@@ -19,7 +19,8 @@ android {
     }
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
+            shrinkResources true
             if (storeFilePath && storePasswordValue && keyAliasValue && keyPasswordValue) signingConfig signingConfigs.release
         }
     }
