@@ -1,0 +1,9 @@
+Version 0.2.1
+
+â€¢ Updated the app to target Android 16 (API 36).
+â€¢ Improved the learning hub theme for a clearer, richer experience.
+â€¢ Added clearer Teacher Studio contribution and lesson-credit guidance.
+â€¢ Added downloadable, rights-tracked PDF revision packs to published lessons.
+â€¢ Improved teacher attribution for topic lessons and video resources.
+â€¢ Improved stability and release diagnostics.
+
