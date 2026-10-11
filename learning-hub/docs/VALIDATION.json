@@ -1,6 +1,6 @@
 {
   "backend_unit_tests": {
-    "passed": 20,
+    "passed": 21,
     "failed": 0
   },
   "http_smoke": "passed: static route, privacy route, login, authenticated catalog, owner usage stats",
@@ -17,7 +17,7 @@
     "account_deletion": "https://app.oneafrikanvoice.art/account-deletion"
   },
   "pdf_resources": "implemented and tested: published lesson PDFs require a source/rights reference and expose a download action; unpublished resources remain protected",
-  "teacher_benefits": "implemented in Teacher Studio: contribution attribution, authentic YouTube-revenue guidance, and no-pay-for-views warning; actual wallet payouts still require owner-configured revenue terms and a monthly ledger",
+  "teacher_benefits": "implemented in Teacher Studio: contribution attribution, owner-recorded wallet ledger entries tied to verified YouTube/AdSense source references, authentic YouTube-revenue guidance, and no-pay-for-views warning; payout execution still requires owner-configured terms and an external payout process",
   "release_status": "release candidate; API 36 APK installed on Samsung and launched without crash; web hosting and policy URLs are live; final signed AAB requires build-signed.ps1; phone WebView acceptance remains blocked by hosted TLS renegotiation until Cloudflare/origin TLS is corrected; Play App Signing and Play Console forms remain",
   "lint_note": "API 36 bundle packaging and R8 completed; final lint task could not download two lint libraries because dl.google.com was unavailable on this machine and must be rerun online before Play submission"
 }
