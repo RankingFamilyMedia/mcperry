@@ -1,3 +1,5 @@
 # Keep the WebView bridge callable from JavaScript in release builds.
--keepclassmembers class com.mcperry.learn.MainActivity$PipBridge { <methods>; }
+-keepattributes *Annotation*,SourceFile,LineNumberTable
+-keep class com.mcperry.learn.MainActivity { *; }
+-keep class com.mcperry.learn.MainActivity$PipBridge { *; }
 
