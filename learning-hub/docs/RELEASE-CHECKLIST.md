@@ -12,6 +12,8 @@
 
 - `/cms` includes administrator usage totals and assigned-teacher activity.
 - Teachers see only aggregate activity for their assigned topics/questions; student identities are not exposed.
+- Teacher Studio clearly explains contribution credit, authentic YouTube revenue eligibility, and PDF revision-pack downloads.
+- PDF resources have an owner-approved source/rights reference and are served only after the lesson is published.
 - The Windows EXE is a private WebView client for the shared CMS; it does not contain the database.
 
 ## Android signing
@@ -34,6 +36,7 @@ If the variables are missing, the project can still build debug artifacts, but t
 - Connect the phone and verify it appears in `adb devices`.
 - Install the debug APK with `adb install -r app\build\outputs\apk\debug\app-debug.apk`.
 - Test login, question attempts, offline review, AI fallback, videos, PiP, CMS permissions, and disabled-account behavior on a real device.
+- Test published YouTube lessons, uploaded MP4 lessons, published PDF downloads, and rejection of unpublished resources.
 
 ## Google Play submission
 
