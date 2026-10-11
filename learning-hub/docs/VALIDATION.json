@@ -1,6 +1,6 @@
 {
   "backend_unit_tests": {
-    "passed": 19,
+    "passed": 20,
     "failed": 0
   },
   "http_smoke": "passed: static route, privacy route, login, authenticated catalog, owner usage stats",
@@ -9,13 +9,16 @@
   "live_ai": "not run: no API key",
   "visual_browser": "not run: no headless browser executable",
   "windows_exe": "rebuilt locally: desktop/dist/McPerryTeacherStudio.exe; not code-signed",
-  "android_apk": "built and installed: app/build/outputs/apk/debug/app-debug.apk on Samsung SM-A055F; version 0.2.0; launch succeeded with no AndroidRuntime crash observed",
-  "android_aab": "built and verified: signed release AAB at app/build/outputs/bundle/release/app-release.aab; debug AAB also built; upload key is stored locally and ignored by Git",
+  "android_apk": "built and installed: app/build/outputs/apk/debug/app-debug.apk on Samsung SM-A055F; version 0.2.1, versionCode 3, targetSdk 36; launch succeeded with no AndroidRuntime crash observed",
+  "android_aab": "clean release bundle built with AGP 8.10.0 and Gradle 8.11.1; versionCode 3/versionName 0.2.1 and targetSdk 36 verified in the packaged manifest; R8 mapping is present at BUNDLE-METADATA/com.android.tools.build.obfuscation/proguard.map; local bundle is unsigned until build-signed.ps1 is run with the private upload-key passwords",
   "phone_webview": "APK installed on Samsung SM-A055F; app launches, but Android WebView reports ERR_CONNECTION_ABORTED against the hosted HTTPS origin; PC TLS probe confirms LiteSpeed requests renegotiation, so Cloudflare/origin TLS configuration must be corrected before final phone acceptance",
   "live_policy_urls": {
     "privacy": "https://app.oneafrikanvoice.art/privacy",
     "account_deletion": "https://app.oneafrikanvoice.art/account-deletion"
   },
-  "release_status": "release candidate; web hosting and policy URLs are live, signed AAB is ready for Play Console upload, CMS EXE rebuilt with the deployed URL prefilled; blocked from final phone acceptance by the hosted TLS renegotiation issue, plus Play App Signing setup and Play Console forms"
+  "pdf_resources": "implemented and tested: published lesson PDFs require a source/rights reference and expose a download action; unpublished resources remain protected",
+  "teacher_benefits": "implemented in Teacher Studio: contribution attribution, authentic YouTube-revenue guidance, and no-pay-for-views warning; actual wallet payouts still require owner-configured revenue terms and a monthly ledger",
+  "release_status": "release candidate; API 36 APK installed on Samsung and launched without crash; web hosting and policy URLs are live; final signed AAB requires build-signed.ps1; phone WebView acceptance remains blocked by hosted TLS renegotiation until Cloudflare/origin TLS is corrected; Play App Signing and Play Console forms remain",
+  "lint_note": "API 36 bundle packaging and R8 completed; final lint task could not download two lint libraries because dl.google.com was unavailable on this machine and must be rerun online before Play submission"
 }
 
