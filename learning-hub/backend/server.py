@@ -341,7 +341,8 @@ class Handler(BaseHTTPRequestHandler):
             else:
                 name=path.strip('/') or 'index.html'
                 if name=='cms': name='cms.html'
-                if name not in ('index.html','cms.html','app.js','style.css','manifest.json','sw.js'): raise Problem(404,'Not found.')
+                if name=='privacy': name='privacy.html'
+                if name not in ('index.html','cms.html','privacy.html','app.js','style.css','manifest.json','sw.js'): raise Problem(404,'Not found.')
                 file=ROOT/'static'/name
                 mime={'.html':'text/html','.js':'text/javascript','.css':'text/css','.json':'application/json'}[file.suffix]
             if not file.is_file(): raise Problem(404,'Not found.')
