@@ -145,15 +145,16 @@ def application(environ, start_response):
             raise server.Problem(405, 'Method not allowed.')
         if path.startswith('/media/'):
             name = path.rsplit('/', 1)[-1]
-            if not re.fullmatch(r'[a-f0-9]{32}\.mp4', name):
+            if not re.fullmatch(r'[a-f0-9]{32}\.(mp4|pdf)', name):
                 raise server.Problem(404, 'Not found.')
             with server.database() as c:
-                if not c.execute('SELECT 1 FROM posts WHERE video=? AND status="published"', (path,)).fetchone():
-                    raise server.Problem(404, 'Video is not published yet.')
+                if not c.execute('SELECT 1 FROM posts WHERE (video=? OR pdf=?) AND status="published"', (path, path)).fetchone():
+                    raise server.Problem(404, 'Lesson resource is not published yet.')
             file = server.DATA / 'media' / name
             if not file.is_file():
                 raise server.Problem(404, 'Not found.')
-            return _response(start_response, '200 OK', file.read_bytes(), 'video/mp4', [('Accept-Ranges', 'bytes')])
+            mime = 'video/mp4' if name.endswith('.mp4') else 'application/pdf'
+            return _response(start_response, '200 OK', file.read_bytes(), mime, [('Accept-Ranges', 'bytes')] if mime == 'video/mp4' else None)
         return _static(start_response, path)
     except server.Problem as error:
         return _json(start_response, error.status, {'error': error.message})
