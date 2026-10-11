@@ -1,0 +1,15 @@
+{
+  "backend_unit_tests": {
+    "passed": 19,
+    "failed": 0
+  },
+  "http_smoke": "passed: static route, login, authenticated catalog, owner usage stats",
+  "javascript_syntax": "passed",
+  "python_syntax": "passed",
+  "live_ai": "not run: no API key",
+  "visual_browser": "not run: no headless browser executable",
+  "windows_exe": "not compiled: no Windows toolchain",
+  "android_apk": "not compiled: no Android SDK",
+  "release_status": "working starter project; requires deployment and device testing"
+}
+
