@@ -1,6 +1,6 @@
 # McPerry Learning Hub — setup and release guide
 
-This ZIP contains a working starter project, version 0.1.0. It has a mobile-friendly student web app, an Android native WebView project, a Windows desktop CMS client project, and a shared Python API/database. It is not a compiled APK or EXE, has not been deployed, and is not a complete WAEC archive.
+This ZIP contains the McPerry Learning Hub release candidate, version 0.2.0. It has a mobile-friendly student web app, an Android native WebView project, a Windows desktop CMS client project, and a shared Python API/database. A local CMS EXE can be built from the desktop project; hosting, signing, and a complete WAEC archive still require release setup.
 
 ## 1. Run the shared server on your Windows PC
 
@@ -31,6 +31,8 @@ Only two original sample questions and answers are initially seeded. Nine BECE/S
 Use the question form or JSON importer with docs/import-template.json. Match topic_id values to your own database. answer_index is zero-based in JSON (the CMS form uses 1-based numbers). null means the correct option is unknown. year null indicates practice. Keep the source and reproduction authorization reference with each paper. This package does not download, license or supply all BECE/WASSCE papers. Scanned PDF/OCR importing and question diagrams are future work; this version imports text questions and options.
 
 Imports run one item at a time and report where they stop. Successful items are already saved; remove them from the file before retrying. Each teacher import is still subject to topic restrictions and approval.
+
+The administrator and assigned teachers can open Usage & activity in the CMS. Administrators see aggregate student activity, content totals, reports, and teacher assignment/submission activity. Teachers see aggregate totals limited to their assigned topics and question tasks; individual student identities are not exposed.
 
 ## 4. Enable AI explanations
 
