@@ -10,6 +10,7 @@ import android.widget.*;
 import android.view.*;
 
 public class MainActivity extends Activity {
+    private static final String DEFAULT_SERVER = "https://app.oneafrikanvoice.art";
     private WebView web;
     private String origin;
     @Override public void onCreate(Bundle state) {
@@ -34,8 +35,8 @@ public class MainActivity extends Activity {
                 return true;
             }
         });
-        origin=getPreferences(MODE_PRIVATE).getString("server",null);
-        if(origin==null) configure(); else web.loadUrl(origin+"/");
+        origin=getPreferences(MODE_PRIVATE).getString("server",DEFAULT_SERVER);
+        web.loadUrl(origin+"/");
         web.setOnLongClickListener(v->{new AlertDialog.Builder(this).setTitle("Learning Hub").setItems(new String[]{"Change server"},(d,n)->configure()).show();return true;});
     }
     private boolean sameOrigin(Uri a,Uri b) {
