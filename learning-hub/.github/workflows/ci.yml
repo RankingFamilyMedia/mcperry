@@ -1,0 +1,24 @@
+name: Learning Hub checks
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Backend tests
+        run: python -m unittest discover -s tests -v
+      - name: Python syntax
+        run: python -m py_compile backend/server.py tests/test_backend.py
+      - name: JavaScript syntax
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - run: node --check backend/static/app.js
+
