@@ -89,6 +89,16 @@ class LearningTests(unittest.TestCase):
         self.denied('/api/upload',{'topic_id':5,'data':raw},self.teacher)
         r=self.call('/api/upload',{'topic_id':1,'data':raw},self.teacher)
         self.assertTrue((s.DATA/'media'/r['url'].split('/')[-1]).exists())
+
+    def test_pdf_resource_requires_rights_reference_and_publishes_with_lesson(self):
+        raw=base64.b64encode(b'%PDF-1.7\nrevision pack').decode()
+        uploaded=self.call('/api/upload',{'topic_id':1,'kind':'pdf','data':raw},self.teacher)
+        self.denied('/api/posts',{'topic_id':1,'title':'Pack','body':'Practice pack','pdf':uploaded['url']},self.teacher,400)
+        post=self.call('/api/posts',{'topic_id':1,'title':'Pack','body':'Practice pack','pdf':uploaded['url'],'pdf_source':'Original pack; owned by McPerry','publish':True},self.teacher)
+        self.call('/api/review',{'kind':'post','id':post['id'],'status':'published'})
+        lesson=next(p for p in self.call('/api/catalog',token=self.student)['posts'] if p['id']==post['id'])
+        self.assertEqual(lesson['pdf'],uploaded['url'])
+        self.assertEqual(lesson['author_name'],'teacher')
     def test_logout(self):
         self.call('/api/logout',{},self.student);self.denied('/api/catalog',None,self.student,401)
     def test_login_limit_survives_failure(self):
