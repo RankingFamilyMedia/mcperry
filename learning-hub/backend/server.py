@@ -48,12 +48,16 @@ def initialize():
         CREATE TABLE IF NOT EXISTS questions(id INTEGER PRIMARY KEY,topic_id INTEGER REFERENCES topics(id),year INTEGER,body TEXT NOT NULL,options TEXT DEFAULT '[]',answer_index INTEGER,source TEXT NOT NULL,status TEXT DEFAULT 'draft',version INTEGER DEFAULT 1);
         CREATE TABLE IF NOT EXISTS tasks(question_id INTEGER PRIMARY KEY REFERENCES questions(id),teacher_id INTEGER REFERENCES users(id));
         CREATE TABLE IF NOT EXISTS solutions(id INTEGER PRIMARY KEY,question_id INTEGER REFERENCES questions(id),version INTEGER,mode TEXT,body TEXT,origin TEXT,status TEXT,author INTEGER REFERENCES users(id),created REAL);
-        CREATE TABLE IF NOT EXISTS posts(id INTEGER PRIMARY KEY,topic_id INTEGER REFERENCES topics(id),question_id INTEGER REFERENCES questions(id),title TEXT,body TEXT,video TEXT DEFAULT '',status TEXT DEFAULT 'draft',author INTEGER REFERENCES users(id),created REAL);
+        CREATE TABLE IF NOT EXISTS posts(id INTEGER PRIMARY KEY,topic_id INTEGER REFERENCES topics(id),question_id INTEGER REFERENCES questions(id),title TEXT,body TEXT,video TEXT DEFAULT '',pdf TEXT DEFAULT '',pdf_source TEXT DEFAULT '',status TEXT DEFAULT 'draft',author INTEGER REFERENCES users(id),created REAL);
         CREATE TABLE IF NOT EXISTS reports(id INTEGER PRIMARY KEY,user_id INTEGER REFERENCES users(id),question_id INTEGER REFERENCES questions(id),body TEXT,created REAL);
         CREATE TABLE IF NOT EXISTS attempts(id INTEGER PRIMARY KEY,user_id INTEGER REFERENCES users(id),question_id INTEGER REFERENCES questions(id),response TEXT,correct INTEGER,created REAL);
         CREATE TABLE IF NOT EXISTS audit(id INTEGER PRIMARY KEY,user_id INTEGER,action TEXT,detail TEXT,created REAL);
         CREATE TABLE IF NOT EXISTS limits(key TEXT PRIMARY KEY,count INTEGER,window REAL);
         ''')
+        # Add new lesson-resource fields to databases created by earlier releases.
+        post_columns={r['name'] for r in c.execute('PRAGMA table_info(posts)')}
+        if 'pdf' not in post_columns: c.execute("ALTER TABLE posts ADD COLUMN pdf TEXT DEFAULT ''")
+        if 'pdf_source' not in post_columns: c.execute("ALTER TABLE posts ADD COLUMN pdf_source TEXT DEFAULT ''")
         if not c.execute('SELECT 1 FROM users WHERE role="owner"').fetchone():
             pw = os.getenv('OWNER_PASSWORD', '')
             if not pw: raise RuntimeError('Set OWNER_PASSWORD (12+ characters) and OWNER_EMAIL before first start.')
@@ -61,9 +65,9 @@ def initialize():
         if not c.execute('SELECT 1 FROM topics').fetchone():
             for level, subject, name in [('BECE','Mathematics','Linear equations'),('BECE','English','Grammar'),('BECE','Science','Forces'),('BECE','Social Studies','Citizenship'),('SHS','Core Mathematics','Quadratic equations'),('SHS','English','Comprehension'),('SHS','Physics','Motion'),('SHS','Chemistry','Atomic structure'),('SHS','Biology','Cells')]:
                 c.execute('INSERT INTO topics(level,subject,name) VALUES(?,?,?)',(level,subject,name))
-            c.execute('INSERT INTO questions(topic_id,body,options,answer_index,source,status) VALUES(1,?,?,?,?,?)', ('Solve 3x + 5 = 20.',json.dumps(['3','5','7','15']),1,'Original practice question — not a WAEC past paper','published'))
-            c.execute('INSERT INTO questions(topic_id,body,options,answer_index,source,status) VALUES(5,?,?,?,?,?)', ('Solve x² − 5x + 6 = 0.',json.dumps(['x = 2 or 3','x = −2 or −3','x = 1 or 6','x = 0 or 5']),0,'Original practice question — not a WAEC past paper','published'))
-            for q,b in [(1,'Subtract 5 from both sides: 3x = 15. Divide both sides by 3: x = 5. Check: 3(5) + 5 = 20.'),(2,'Factorise: (x − 2)(x − 3) = 0. Hence x = 2 or x = 3. Substituting either root gives zero.')]:
+            c.execute('INSERT INTO questions(topic_id,body,options,answer_index,source,status) VALUES(1,?,?,?,?,?)', ('Solve 3x + 5 = 20.',json.dumps(['3','5','7','15']),1,'Original practice question â€” not a WAEC past paper','published'))
+            c.execute('INSERT INTO questions(topic_id,body,options,answer_index,source,status) VALUES(5,?,?,?,?,?)', ('Solve xÂ² âˆ’ 5x + 6 = 0.',json.dumps(['x = 2 or 3','x = âˆ’2 or âˆ’3','x = 1 or 6','x = 0 or 5']),0,'Original practice question â€” not a WAEC past paper','published'))
+            for q,b in [(1,'Subtract 5 from both sides: 3x = 15. Divide both sides by 3: x = 5. Check: 3(5) + 5 = 20.'),(2,'Factorise: (x âˆ’ 2)(x âˆ’ 3) = 0. Hence x = 2 or x = 3. Substituting either root gives zero.')]:
                 c.execute('INSERT INTO solutions(question_id,version,mode,body,origin,status,author,created) VALUES(?,1,"full",?,"sample","reviewed",1,?)',(q,b,time.time()))
 
 def audit(c, user, action, detail):
@@ -105,6 +109,12 @@ def video_url(value):
     elif host=='youtu.be': vid=p.path.strip('/')
     if not re.fullmatch(r'[A-Za-z0-9_-]{11}',vid): raise Problem(400,'Provide a valid YouTube watch, shorts or share link.')
     return 'https://www.youtube.com/embed/'+vid
+
+def pdf_url(value):
+    if not value: return ''
+    if not isinstance(value,str) or not re.fullmatch(r'/media/[a-f0-9]{32}\.pdf',value):
+        raise Problem(400,'Use an uploaded PDF revision pack.')
+    return value
 
 def ai_solution(q, topic, mode):
     key=os.getenv('OPENAI_API_KEY')
@@ -149,10 +159,10 @@ def api(method,path,d,token='',ip='local'):
                 qids={r[0] for r in c.execute('SELECT question_id FROM tasks WHERE teacher_id=?',(u['id'],))}
                 qs=[dict(r) for r in c.execute('SELECT * FROM questions') if r['topic_id'] in tids or r['id'] in qids]
                 topics=[t for t in topics if t['id'] in tids or any(q['topic_id']==t['id'] for q in qs)]
-                posts=[dict(r) for r in c.execute('SELECT * FROM posts') if r['topic_id'] in tids]
+                posts=[dict(r) for r in c.execute('SELECT p.*,u.name AS author_name FROM posts p LEFT JOIN users u ON u.id=p.author') if r['topic_id'] in tids]
             else:
                 qs=[dict(r) for r in c.execute('SELECT * FROM questions'+('' if cms else ' WHERE status="published"'))]
-                posts=[dict(r) for r in c.execute('SELECT * FROM posts'+('' if cms else ' WHERE status="published"'))]
+                posts=[dict(r) for r in c.execute('SELECT p.*,u.name AS author_name FROM posts p LEFT JOIN users u ON u.id=p.author'+('' if cms else ' WHERE p.status="published"'))]
             for q in qs:
                 q['options']=json.loads(q['options'])
                 if not cms: q.pop('answer_index',None)
@@ -285,14 +295,24 @@ def api(method,path,d,token='',ip='local'):
             qid=d.get('question_id') or None
             if qid and getquestion(c,int(qid))['topic_id']!=tid: raise Problem(400,'Question must belong to the same topic.')
             status='published' if u['role']=='owner' and d.get('publish') else 'pending'
-            pid=c.execute('INSERT INTO posts(topic_id,question_id,title,body,video,status,author,created) VALUES(?,?,?,?,?,?,?,?)',(tid,qid,textfield(d,'title',200),textfield(d,'body'),video_url(d.get('video','')),status,u['id'],time.time())).lastrowid
+            pdf=pdf_url(d.get('pdf',''))
+            pdf_source=d.get('pdf_source','').strip() if isinstance(d.get('pdf_source',''),str) else ''
+            if pdf and not pdf_source: raise Problem(400,'Add the PDF rights or source reference.')
+            pid=c.execute('INSERT INTO posts(topic_id,question_id,title,body,video,pdf,pdf_source,status,author,created) VALUES(?,?,?,?,?,?,?,?,?,?)',(tid,qid,textfield(d,'title',200),textfield(d,'body'),video_url(d.get('video','')),pdf,pdf_source,status,u['id'],time.time())).lastrowid
             audit(c,u,'post',{'id':pid}); return {'id':pid}
         if method=='POST' and path=='/api/upload':
             tid=integer(d,'topic_id'); can_topic(c,u,tid)
+            kind=d.get('kind','video')
+            if kind not in ('video','pdf'): raise Problem(400,'Invalid upload type.')
             try: raw=base64.b64decode(d.get('data',''),validate=True)
             except (ValueError,TypeError): raise Problem(400,'Invalid upload.')
-            if not 12<=len(raw)<=30*1024*1024 or raw[4:8]!=b'ftyp': raise Problem(400,'Upload an MP4 video, maximum 30 MB.')
-            name=secrets.token_hex(16)+'.mp4'; (DATA/'media'/name).write_bytes(raw)
+            if kind=='pdf':
+                if not 12<=len(raw)<=20*1024*1024 or raw[:5]!=b'%PDF-': raise Problem(400,'Upload a PDF revision pack, maximum 20 MB.')
+                suffix='.pdf'
+            else:
+                if not 12<=len(raw)<=30*1024*1024 or raw[4:8]!=b'ftyp': raise Problem(400,'Upload an MP4 video, maximum 30 MB.')
+                suffix='.mp4'
+            name=secrets.token_hex(16)+suffix; (DATA/'media'/name).write_bytes(raw)
             audit(c,u,'upload',{'file':name,'topic_id':tid}); return {'url':'/media/'+name}
         if method=='POST' and path=='/api/report':
             q=getquestion(c,integer(d,'question_id'))
@@ -333,11 +353,11 @@ class Handler(BaseHTTPRequestHandler):
             if method!='GET': raise Problem(405,'Method not allowed.')
             if path.startswith('/media/'):
                 name=path.split('/')[-1]
-                if not re.fullmatch(r'[a-f0-9]{32}\.mp4',name): raise Problem(404,'Not found.')
+                if not re.fullmatch(r'[a-f0-9]{32}\.(mp4|pdf)',name): raise Problem(404,'Not found.')
                 # Only published posts expose media to students. CMS users access via authenticated /api? no: uploaded previews are not served until publication.
                 with database() as c:
-                    if not c.execute('SELECT 1 FROM posts WHERE video=? AND status="published"',(path,)).fetchone(): raise Problem(404,'Video is not published yet.')
-                file=DATA/'media'/name; mime='video/mp4'
+                    if not c.execute('SELECT 1 FROM posts WHERE (video=? OR pdf=?) AND status="published"',(path,path)).fetchone(): raise Problem(404,'Lesson resource is not published yet.')
+                file=DATA/'media'/name; mime='video/mp4' if name.endswith('.mp4') else 'application/pdf'
             else:
                 name=path.strip('/') or 'index.html'
                 if name=='cms': name='cms.html'
