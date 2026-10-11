@@ -1,7 +1,7 @@
 $ErrorActionPreference = 'Stop'
 Set-Location $PSScriptRoot
 # Requires JDK 17 and Android SDK (SDK path in local.properties or ANDROID_HOME).
-$version = '8.9'
+$version = '8.11.1'
 $dir = Join-Path $PSScriptRoot '.tools'
 New-Item -ItemType Directory -Force $dir | Out-Null
 $gradle = Join-Path $dir "gradle-$version\bin\gradle.bat"
