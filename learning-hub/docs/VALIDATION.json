@@ -8,8 +8,14 @@
   "python_syntax": "passed",
   "live_ai": "not run: no API key",
   "visual_browser": "not run: no headless browser executable",
-  "windows_exe": "built locally: desktop/dist/McPerryTeacherStudio.exe; not code-signed",
-  "android_apk": "not compiled: Gradle download interrupted; Android SDK present; phone not connected",
-  "release_status": "release candidate; requires HTTPS hosting, signing credentials, and device testing"
+  "windows_exe": "rebuilt locally: desktop/dist/McPerryTeacherStudio.exe; not code-signed",
+  "android_apk": "built and installed: app/build/outputs/apk/debug/app-debug.apk on Samsung SM-A055F; version 0.2.0; launch succeeded with no AndroidRuntime crash observed",
+  "android_aab": "built and verified: signed release AAB at app/build/outputs/bundle/release/app-release.aab; debug AAB also built; upload key is stored locally and ignored by Git",
+  "phone_webview": "APK installed on Samsung SM-A055F; app launches, but Android WebView reports ERR_CONNECTION_ABORTED against the hosted HTTPS origin; PC TLS probe confirms LiteSpeed requests renegotiation, so Cloudflare/origin TLS configuration must be corrected before final phone acceptance",
+  "live_policy_urls": {
+    "privacy": "https://app.oneafrikanvoice.art/privacy",
+    "account_deletion": "https://app.oneafrikanvoice.art/account-deletion"
+  },
+  "release_status": "release candidate; web hosting and policy URLs are live, signed AAB is ready for Play Console upload, CMS EXE rebuilt with the deployed URL prefilled; blocked from final phone acceptance by the hosted TLS renegotiation issue, plus Play App Signing setup and Play Console forms"
 }
 
