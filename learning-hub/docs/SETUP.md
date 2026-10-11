@@ -1,6 +1,6 @@
-# McPerry Learning Hub — setup and release guide
+# McPerry Learning Hub â€” setup and release guide
 
-This ZIP contains the McPerry Learning Hub release candidate, version 0.2.0. It has a mobile-friendly student web app, an Android native WebView project, a Windows desktop CMS client project, and a shared Python API/database. A local CMS EXE can be built from the desktop project; hosting, signing, and a complete WAEC archive still require release setup.
+This ZIP contains the McPerry Learning Hub release candidate, version 0.2.1. It has a mobile-friendly student web app, an Android native WebView project, a Windows desktop CMS client project, and a shared Python API/database. A local CMS EXE can be built from the desktop project; hosting, signing, and a complete WAEC archive still require release setup.
 
 ## 1. Run the shared server on your Windows PC
 
@@ -18,7 +18,7 @@ The data folder is backend/data. Back up the database using Python's SQLite back
 
 ## 2. Create student and teacher accounts
 
-In CMS, open “Create a teacher or student account”. Add name, email, a unique temporary password of at least 12 characters, and role. Users can change their password using the Password button. There is no public signup in this version; the owner controls admission.
+In CMS, open â€œCreate a teacher or student accountâ€. Add name, email, a unique temporary password of at least 12 characters, and role. Users can change their password using the Password button. There is no public signup in this version; the owner controls admission.
 
 Assign a teacher to a topic to allow questions, answers and tutorial submissions within that topic. Or assign a specific question as an answer task without granting the whole topic. Revoke assignments or disable an account when needed. The server checks permissions on every write; hiding a form is not the permission boundary.
 
@@ -47,7 +47,7 @@ python .\backend\server.py
 
 An API account and provider billing are separate from a ChatGPT subscription. Keep keys on the server. Change the model to one available to your API account. Live provider calls could not be tested without your key.
 
-The app requests hint, step-by-step or full explanation on demand. Matching reviewed answers are preferred, then matching cached AI answers. New explanations are saved against question ID, version and mode. AI text is shown with “not teacher-reviewed”. The owner can approve or withdraw it. Editing a question increments its version, leaving previous explanations in the database as history; old explanations are not served for the new version.
+The app requests hint, step-by-step or full explanation on demand. Matching reviewed answers are preferred, then matching cached AI answers. New explanations are saved against question ID, version and mode. AI text is shown with â€œnot teacher-reviewedâ€. The owner can approve or withdraw it. Editing a question increments its version, leaving previous explanations in the database as history; old explanations are not served for the new version.
 
 Quota: ten new generations per account per 24-hour window plus the global cap. Cached answers do not consume generation quota. Failed generation attempts consume a quota reservation. The model receives question content and subject/topic, not student passwords or names. Concurrent requests may generate duplicate explanations; a production job queue/deduplication lock is a future hardening task.
 
@@ -75,7 +75,7 @@ Install Android Studio, Android SDK 35 and JDK 17. Open the android folder in An
 .\build-windows.ps1
 ```
 
-If scripts are blocked, use Android Studio rather than weakening machine-wide script policy. The script downloads Gradle 8.9 and requires SDK location configured in local.properties or ANDROID_HOME. Debug APK output:
+If scripts are blocked, use Android Studio rather than weakening machine-wide script policy. The script downloads Gradle 8.11.1 and requires SDK location configured in local.properties or ANDROID_HOME. Debug APK output:
 
 ```
 android\app\build\outputs\apk\debug\app-debug.apk
@@ -89,7 +89,9 @@ The web app also runs directly in a mobile browser. Offline shell and downloaded
 
 ## 7. Videos and picture-in-picture
 
-Teachers add YouTube watch/share/shorts links or upload MP4 videos up to 30 MB. The server checks topic permission and normalizes supported YouTube links to embed URLs. Video posts become visible only when published; uploaded files are inaccessible until referenced by a published post. This is basic MP4 container validation, not transcoding or malware scanning. Keep a controlled teacher roster. Large files should use YouTube.
+Teachers add YouTube watch/share/shorts links, upload MP4 videos up to 30 MB, or attach a PDF revision pack up to 20 MB. The server checks topic permission and normalizes supported YouTube links to embed URLs. Video and PDF resources become visible/downloadable only when the post is published; each PDF requires a source or rights reference. This is basic container validation, not transcoding or malware scanning. Keep a controlled teacher roster. Large videos should use YouTube.
+
+Teacher benefit and YouTube policy: the CMS shows each teacher how approved questions, topic lessons, videos and PDFs are credited. If the organisation later joins the YouTube Partner Program, the owner may record actual monthly channel revenue and the agreed teacher allocation in an auditable wallet ledger. Do not pay viewers, require watch time, or promise a fixed amount per view: YouTube prohibits engagement whose primary purpose is financial gain, and ad revenue is not guaranteed. Teachers must receive the written revenue-share terms and payout schedule before contributing.
 
 The student app keeps lessons in a floating in-app player while the question remains accessible. Closing the player ends it. For uploaded MP4 videos, the web PiP button requests system PiP when supported. The Android native bridge also requests system PiP and adjusts the view to the lesson player. YouTube remains an official iframe embed: playback/PiP depends on device, WebView, embedding permissions and video restrictions. This feature needs testing on actual Android phones; continuous background playback is not promised. No YouTube videos are downloaded or extracted. Fullscreen handling in the Android wrapper is a future enhancement; use the floating view for now.
 
