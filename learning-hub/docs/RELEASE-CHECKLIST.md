@@ -13,6 +13,7 @@
 - `/cms` includes administrator usage totals and assigned-teacher activity.
 - Teachers see only aggregate activity for their assigned topics/questions; student identities are not exposed.
 - Teacher Studio clearly explains contribution credit, authentic YouTube revenue eligibility, and PDF revision-pack downloads.
+- Owner-only wallet entries record verified source, period, teacher, eligible views, participation units, share percentage and amount; teachers can view only their own entries.
 - PDF resources have an owner-approved source/rights reference and are served only after the lesson is published.
 - The Windows EXE is a private WebView client for the shared CMS; it does not contain the database.
 
