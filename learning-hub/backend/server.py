@@ -1,5 +1,5 @@
 """McPerry Learning Hub: standard-library API and static app server."""
-import base64, hashlib, hmac, json, os, re, secrets, sqlite3, time, urllib.request, urllib.error
+import base64, hashlib, hmac, json, math, os, re, secrets, sqlite3, time, urllib.request, urllib.error
 from contextlib import contextmanager
 from pathlib import Path
 from http.server import ThreadingHTTPServer, BaseHTTPRequestHandler
@@ -53,6 +53,7 @@ def initialize():
         CREATE TABLE IF NOT EXISTS attempts(id INTEGER PRIMARY KEY,user_id INTEGER REFERENCES users(id),question_id INTEGER REFERENCES questions(id),response TEXT,correct INTEGER,created REAL);
         CREATE TABLE IF NOT EXISTS audit(id INTEGER PRIMARY KEY,user_id INTEGER,action TEXT,detail TEXT,created REAL);
         CREATE TABLE IF NOT EXISTS limits(key TEXT PRIMARY KEY,count INTEGER,window REAL);
+        CREATE TABLE IF NOT EXISTS wallet_entries(id INTEGER PRIMARY KEY,teacher_id INTEGER REFERENCES users(id),post_id INTEGER REFERENCES posts(id),period TEXT NOT NULL,amount_minor INTEGER NOT NULL,currency TEXT NOT NULL,eligible_views INTEGER DEFAULT 0,participation_units INTEGER DEFAULT 0,share_percent REAL DEFAULT 0,source TEXT NOT NULL,description TEXT NOT NULL,created_by INTEGER REFERENCES users(id),created REAL);
         ''')
         # Add new lesson-resource fields to databases created by earlier releases.
         post_columns={r['name'] for r in c.execute('PRAGMA table_info(posts)')}
@@ -201,14 +202,16 @@ def api(method,path,d,token='',ip='local'):
                     'published_questions': c.execute('SELECT COUNT(*) FROM questions WHERE status="published"').fetchone()[0],
                     'published_tutorials': c.execute('SELECT COUNT(*) FROM posts WHERE status="published"').fetchone()[0],
                     'ai_explanations': c.execute('SELECT COUNT(*) FROM solutions WHERE origin="ai"').fetchone()[0],
-                    'reports': c.execute('SELECT COUNT(*) FROM reports').fetchone()[0]
+                    'reports': c.execute('SELECT COUNT(*) FROM reports').fetchone()[0],
+                    'wallet_entries': c.execute('SELECT COUNT(*) FROM wallet_entries').fetchone()[0]
                 }
                 teachers=[dict(r) for r in c.execute('''
                     SELECT u.id,u.name,u.email,u.active,
                       (SELECT COUNT(*) FROM assignments a WHERE a.user_id=u.id) topics,
                       (SELECT COUNT(*) FROM tasks t WHERE t.teacher_id=u.id) tasks,
                       (SELECT COUNT(*) FROM audit x WHERE x.user_id=u.id AND x.action IN ('question','solution','post','upload')) submissions,
-                      (SELECT COUNT(*) FROM audit x WHERE x.user_id=u.id AND x.created>=?) activity_7d
+                      (SELECT COUNT(*) FROM audit x WHERE x.user_id=u.id AND x.created>=?) activity_7d,
+                      (SELECT COUNT(*) FROM wallet_entries w WHERE w.teacher_id=u.id) wallet_entries
                     FROM users u WHERE u.role='teacher' ORDER BY u.name
                 ''',(time.time()-7*86400,))]
                 return {'role':'owner','generated_at':time.time(),'summary':summary,'teachers':teachers}
@@ -222,9 +225,39 @@ def api(method,path,d,token='',ip='local'):
                 'submissions': c.execute("SELECT COUNT(*) FROM audit WHERE user_id=? AND action IN ('question','solution','post','upload')",(u['id'],)).fetchone()[0],
                 'activity_7d': c.execute('SELECT COUNT(*) FROM audit WHERE user_id=? AND created>=?',(u['id'],time.time()-7*86400)).fetchone()[0],
                 'student_attempts': c.execute('SELECT COUNT(*) FROM attempts a JOIN questions q ON q.id=a.question_id WHERE '+scope, scope_args).fetchone()[0],
-                'student_correct_mcq': c.execute('SELECT COALESCE(SUM(a.correct),0) FROM attempts a JOIN questions q ON q.id=a.question_id WHERE '+scope, scope_args).fetchone()[0]
+                'student_correct_mcq': c.execute('SELECT COALESCE(SUM(a.correct),0) FROM attempts a JOIN questions q ON q.id=a.question_id WHERE '+scope, scope_args).fetchone()[0],
+                'wallet_entries': c.execute('SELECT COUNT(*) FROM wallet_entries WHERE teacher_id=?',(u['id'],)).fetchone()[0]
             }
             return {'role':'teacher','generated_at':time.time(),'summary':summary,'teachers':[]}
+        if method=='GET' and path=='/api/wallet':
+            if u['role']=='owner':
+                entries=[dict(r) for r in c.execute('''SELECT w.*,u.name AS teacher_name,p.title AS post_title
+                    FROM wallet_entries w JOIN users u ON u.id=w.teacher_id LEFT JOIN posts p ON p.id=w.post_id ORDER BY w.created DESC''')]
+            else:
+                if u['role']!='teacher': raise Problem(403,'Wallet statements are available to teachers and administrators.')
+                entries=[dict(r) for r in c.execute('''SELECT w.*,u.name AS teacher_name,p.title AS post_title
+                    FROM wallet_entries w JOIN users u ON u.id=w.teacher_id LEFT JOIN posts p ON p.id=w.post_id
+                    WHERE w.teacher_id=? ORDER BY w.created DESC''',(u['id'],))]
+            return {'entries':entries}
+        if method=='POST' and path=='/api/wallet-entry':
+            owner(); teacher_id=integer(d,'teacher_id')
+            if not c.execute('SELECT 1 FROM users WHERE id=? AND role="teacher" AND active=1',(teacher_id,)).fetchone(): raise Problem(400,'Select an active teacher.')
+            try: amount_minor=int(d.get('amount_minor'))
+            except (TypeError,ValueError): raise Problem(400,'Invalid wallet amount.')
+            if amount_minor<0: raise Problem(400,'Wallet amount cannot be negative.')
+            currency=d.get('currency','GHS').upper() if isinstance(d.get('currency','GHS'),str) else ''
+            if not re.fullmatch(r'[A-Z]{3}',currency): raise Problem(400,'Currency must be a three-letter code.')
+            try: eligible_views=int(d.get('eligible_views',0)); participation_units=int(d.get('participation_units',0)); share_percent=float(d.get('share_percent',0))
+            except (TypeError,ValueError): raise Problem(400,'Invalid wallet participation values.')
+            if eligible_views<0 or participation_units<0 or not math.isfinite(share_percent) or not 0<=share_percent<=100: raise Problem(400,'Invalid wallet participation values.')
+            post_id=d.get('post_id') or None
+            if post_id is not None:
+                try: post_id=int(post_id)
+                except (TypeError,ValueError): raise Problem(400,'Invalid lesson post.')
+                if not c.execute('SELECT 1 FROM posts WHERE id=?',(post_id,)).fetchone(): raise Problem(404,'Lesson post not found.')
+            entry=c.execute('''INSERT INTO wallet_entries(teacher_id,post_id,period,amount_minor,currency,eligible_views,participation_units,share_percent,source,description,created_by,created)
+                VALUES(?,?,?,?,?,?,?,?,?,?,?,?)''',(teacher_id,post_id,textfield(d,'period',100),amount_minor,currency,eligible_views,participation_units,share_percent,textfield(d,'source',1000),textfield(d,'description',1000),u['id'],time.time())).lastrowid
+            audit(c,u,'wallet_entry',{'id':entry,'teacher_id':teacher_id,'amount_minor':amount_minor,'currency':currency}); return {'id':entry}
         if method=='POST' and path=='/api/users':
             owner(); role=d.get('role')
             if role not in ('teacher','student'): raise Problem(400,'Choose teacher or student.')
