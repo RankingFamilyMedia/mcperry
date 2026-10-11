@@ -1,0 +1,15 @@
+backend/data/
+.env
+__pycache__/
+*.pyc
+.venv/
+.tools/
+build/
+dist/
+*.spec
+android/.gradle/
+android/local.properties
+android/.android/
+*.jks
+*.keystore
+
